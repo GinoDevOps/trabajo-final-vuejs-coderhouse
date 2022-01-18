@@ -3,9 +3,11 @@
     <v-row align="center" justify="center">
       <v-col class="text-center" cols="12">
         <h1 style="font-size: 55px">Fast Food Gourmet</h1>
-        <v-btn color="error" x-large style="border-radius: 15px" href="menu" class="zoom">
-          PEDÍ ONLINE</v-btn
-        >
+        <router-link to="/menu" style="text-decoration: none">
+          <v-btn color="error" x-large style="border-radius: 15px" class="zoom">
+            PEDÍ ONLINE</v-btn
+          >
+        </router-link>
       </v-col>
     </v-row>
   </v-parallax>

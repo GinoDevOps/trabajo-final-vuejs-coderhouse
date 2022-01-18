@@ -10,10 +10,7 @@
     <v-divider></v-divider>
     <Foto />
     <v-divider></v-divider>
-    <Mapa
-      :latitude="13.7013266"
-      :longitude="-89.226622"
-    />
+    <Mapa />
     <Footer />
   </v-app>
 </template>
@@ -28,12 +25,10 @@ import Footer from "./Footer.vue";
 import Mapa from "./Mapa.vue";
 import Foto from "./FotosFinal.vue";
 
-
 export default {
   name: "Inicio",
   data() {
     return {
-      hidden: false,
     };
   },
   components: {
