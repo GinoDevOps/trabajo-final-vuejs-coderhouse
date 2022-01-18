@@ -247,7 +247,7 @@ export default {
             ", " +
             this.userAddress.provincia;
         });
-        window.location.href = `https://wa.me/543512893982?text=Hola+,+mi+nombre+es+${
+        window.location.href = `https://wa.me/5491132686326?text=Hola+,+mi+nombre+es+${
           this.dataUser.nombre
         }%21%0D%0AQuiero+realizar+un+pedido+de+los+siguientes+items%3A${
           productsString +
