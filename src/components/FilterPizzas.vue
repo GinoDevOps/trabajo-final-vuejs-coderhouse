@@ -12,11 +12,17 @@
         </v-skeleton-loader>
       </v-sheet>
       <v-card v-else shaped class="zoom">
-        <v-img :src="producto.image" width="500" height="300" contain></v-img>
+        <v-img
+          :src="producto.image"
+          width="500"
+          height="300"
+          contain
+          class="mx-auto"
+        ></v-img>
         <v-card-title style="font-size: 25px">
           {{ producto.product }}
         </v-card-title>
-        <v-card-title>Precio: ${{ parseFloat(producto.price) }}</v-card-title>
+        <v-card-title>Precio: ${{ parseInt(producto.price) }}</v-card-title>
         <v-card-actions>
           <ProductoInfo :infoProduct="producto.description" />
           <v-spacer> </v-spacer>
@@ -37,7 +43,9 @@
 
 <script>
 import ProductoInfo from "./InformacionProductos.vue";
+import { add } from "cart-localstorage";
 import { mapState, mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -49,14 +57,14 @@ export default {
     ProductoInfo,
   },
   methods: {
-    ...mapActions("carrito", ["agregarProductoCarrito"]),
     ...mapActions("productos", ["mostrarProductos"]),
 
     agregarAlCarrito(producto) {
       this.show = true;
-      this.agregarProductoCarrito(producto);
+      add(producto, 1);
       setTimeout(() => {
         this.show = false;
+        location.reload();
       }, 1000);
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-container  class="mt-6">
+    <v-container class="mt-6">
       <Navbar />
     </v-container>
     <h1 class="tituloLogin">Ingresar</h1>
@@ -11,6 +11,22 @@
             <v-card>
               <v-card-text>
                 <v-form ref="form" v-model="form" class="pa-4 pt-6">
+                  <v-container
+                    v-for="(error, i) in errores"
+                    :key="i"
+                    style="color: red"
+                  >
+                    <ul
+                      style="
+                        list-style: none;
+                        text-align: center;
+                        font-size: 18px;
+                      "
+                    >
+                      <li>{{ error }}</li>
+                    </ul>
+                  </v-container>
+
                   <v-text-field
                     :rules="[rules.email]"
                     filled
@@ -36,12 +52,12 @@
                 </p>
                 <v-spacer></v-spacer>
                 <v-btn
-              x-large
+                  x-large
                   :disabled="!form"
                   :loading="isLoading"
                   class="white--text mr-6"
                   color="blue accent-4"
-                   style="border-radius: 15px"
+                  style="border-radius: 15px"
                   depressedcolor="primary"
                   @click="loginUsers(usuarioLogin)"
                   >Ingresar</v-btn
@@ -57,9 +73,14 @@
 
 <script>
 import Navbar from "./Navbar.vue";
+import axios from "axios";
+
 export default {
+  axios,
   data() {
     return {
+      errores: [],
+      logued: Boolean,
       form: false,
       isLoading: false,
       rules: {
@@ -78,8 +99,22 @@ export default {
   },
   methods: {
     loginUsers(dataUser) {
-      this.$store.dispatch("loginUsers", dataUser);
-      this.$router.push("/");
+      axios
+        .get("https://61b1fcaec8d4640017aaf0ec.mockapi.io/users", dataUser)
+        .then((data) => {
+          this.errores = [];
+          for (let i = 0; i < data.data.length; i++) {
+            if (
+              data.data[i].jwt === localStorage.token &&
+              dataUser.email === localStorage.email &&
+              dataUser.password === localStorage.password
+            ) {
+              this.$router.push("/");
+            } else {
+              this.errores.push("Algunos de los datos es incorrecto");
+            }
+          }
+        });
     },
   },
 };
@@ -93,7 +128,7 @@ export default {
   background: url("../assets/bg-image-cart.jpg");
   color: white;
   display: flex;
-  height:200px;
+  height: 200px;
   justify-content: center;
   align-items: center;
   font-size: 70px;

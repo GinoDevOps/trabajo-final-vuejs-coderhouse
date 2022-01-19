@@ -7,7 +7,7 @@
             <router-link to="/menu" style="text-decoration: none">
               <v-card
                 shaped
-                :style="`background: url(${url.url}) no-repeat center center`"
+                :style="`background: url(${url.url}) no-repeat center center ` "
                 :elevation="hover ? 12 : 2"
                 :class="{ 'on-hover': hover }"
                 height="400"
@@ -52,9 +52,9 @@ export default {
   font-family: "Bebas Neue", cursive;
 }
 .zoom {
-  transition: 0.5s;
+  transition: 0.2s;
 }
 .zoom:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 </style>

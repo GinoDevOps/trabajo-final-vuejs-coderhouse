@@ -11,10 +11,11 @@
           <v-container v-else>
             <v-card
               class="d-lg-flex align-center mt-4"
-              v-for="(producto, i) in carrito"
+              v-for="(producto, i) in listProducts()"
               :key="i"
+              color="grey lighten-5"
             >
-              <v-img :src="producto.image" width="400"> </v-img>
+              <v-img :src="producto.image" width="400" class="mx-auto"> </v-img>
               <v-container>
                 <v-card-title style="font-size: 30px"
                   >{{ producto.product }}
@@ -22,35 +23,35 @@
                 <v-spacer></v-spacer>
                 <v-container class="d-flex">
                   <v-container
-                    class="d-flex flex-column"
+                    class="d-flex flex-column justify-center"
                     style="max-width: 50%"
                   >
-                    <h2>
-                      <input
-                        type="number"
-                        style="width: 60px"
-                        min="1"
-                        v-model="producto.quantity"
-                        :max="producto.disponibles"
-                        class="pl-2"
-                      />
-                      u.
-                    </h2>
-                    <p>Disponibles: {{ producto.disponibles }}</p>
+                    <v-row class="mb-2">
+                      <v-btn @click="decrease(producto)" class="mr-3"
+                        ><v-icon>mdi-minus-circle</v-icon></v-btn
+                      >
+                      <h2>{{ producto.quantity }}</h2>
+                      <v-btn @click="increase(producto)" class="ml-3"
+                        ><v-icon>mdi-plus-circle</v-icon></v-btn
+                      >
+                    </v-row>
+                    <h3>Disponibles: {{ producto.disponibles }}</h3>
                   </v-container>
-                  <v-spacer></v-spacer>
-                  <v-card-title style="font-size: 25px"
-                    >$ {{ calcularPrecioXProducto(producto) }}</v-card-title
-                  >
+                  <v-row>
+                    <v-spacer></v-spacer>
+                    <v-card-title style="font-size: 28px"
+                      >$ {{ productPrice(producto) }}</v-card-title
+                    >
+                  </v-row>
                 </v-container>
 
                 <v-card-actions>
                   <v-btn
-                  x-large
+                    x-large
                     class="ml-2"
                     color="error"
                     style="border-radius: 15px"
-                    @click="eliminarProducto(producto.id)"
+                    @click="remove(producto.id)"
                     >Eliminar</v-btn
                   >
                 </v-card-actions>
@@ -79,13 +80,22 @@
             </v-container>
 
             <v-container v-else>
-              <v-container class="d-flex justify-end mb-6">
-                <h2>Total: ${{ total }}</h2>
+              <v-container ontainer class="d-flex justify-end mb-6">
+                <h2>Total: ${{ totalCart() }}</h2>
               </v-container>
 
               <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-container class="d-flex justify-end mb-6">
+                    <v-btn
+                      x-large
+                      color="error"
+                      dark
+                      class="mr-5"
+                      @click="destroyCart()"
+                    >
+                      Eliminar carrito
+                    </v-btn>
                     <v-btn
                       x-large
                       color="primary"
@@ -181,14 +191,15 @@
 
 <script>
 import Navbar from "./Navbar.vue";
-import { mapState, mapActions, mapGetters } from "vuex";
+import { list, remove, quantity, total, destroy } from "cart-localstorage";
+
 export default {
   components: {
     Navbar,
   },
   data: () => ({
     valid: true,
-    loader: true,
+    loader: false,
     carritoVacio: false,
     dialog: false,
     toggle: true,
@@ -209,20 +220,29 @@ export default {
     addresRules: [(v) => !!v || "La dirección es requerida"],
   }),
   methods: {
-    ...mapActions("carrito", ["mostrarCarrito"]),
-    ...mapActions("carrito", ["eliminarProductoCarrito"]),
-
-    eliminarProducto(id) {
-      this.eliminarProductoCarrito(id);
-      this.mostrarCarrito();
-    },
-    calcularPrecioXProducto(producto) {
-      return producto.price * producto.quantity;
-    },
-    carritoStatus() {
-      if (this.productosEnCarrito === 0) {
+    cart() {
+      if (list().length == 0) {
         this.carritoVacio = true;
       }
+    },
+    increase(producto) {
+      quantity(producto.id, 1);
+      this.$forceUpdate();
+    },
+    decrease(producto) {
+      quantity(producto.id, -1);
+      this.$forceUpdate();
+    },
+    listProducts() {
+      return list();
+    },
+    remove(id) {
+      remove(id);
+      this.cart();
+      this.$forceUpdate();
+    },
+    productPrice(producto) {
+      return producto.price * producto.quantity;
     },
     sendOrder() {
       if (
@@ -231,10 +251,12 @@ export default {
       ) {
         let productsString = "";
         let addressMessage = "";
-        this.carrito.forEach((elem) => {
+        list().forEach((elem) => {
           productsString =
             productsString +
-            "%0D%0A" +
+            " " +
+            elem.quantity +
+            "x" +
             elem.product.replace(" ", "+") +
             "+-+" +
             "%24" +
@@ -254,7 +276,7 @@ export default {
           " La dirección de envio seria: " +
           addressMessage +
           ". El total seria: $" +
-          this.total +
+          total() +
           ", paga en: " +
           this.toggle
         }`;
@@ -266,26 +288,19 @@ export default {
         this.nuevoIndex = -1;
       });
     },
-  },
-  computed: {
-    ...mapGetters("carrito", ["productosEnCarrito"]),
-    ...mapState("carrito", ["carrito"]),
-    total: function () {
-      this.carritoStatus();
-      let total = 0;
-      this.carrito.forEach((producto) => {
-        total += producto.quantity * producto.price;
-      });
-      return total;
+    totalCart() {
+      return total();
+    },
+    destroyCart() {
+      destroy();
+      this.cart();
+
+      this.$forceUpdate();
     },
   },
   mounted() {
-    this.mostrarCarrito();
-    setTimeout(() => {
-      this.loader = false;
-    }, 1000);
+    this.cart();
   },
-
   watch: {
     dialog(val) {
       val || this.close();

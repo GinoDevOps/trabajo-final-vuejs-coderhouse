@@ -28,8 +28,7 @@ import Foto from "./FotosFinal.vue";
 export default {
   name: "Inicio",
   data() {
-    return {
-    };
+    return {};
   },
   components: {
     Navbar,

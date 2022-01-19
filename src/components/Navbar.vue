@@ -5,6 +5,7 @@
         <v-img :src="require('../assets/logo-navbar.jpg')" width="200"></v-img>
       </router-link>
       <v-spacer></v-spacer><v-spacer></v-spacer>
+      <v-container></v-container>
       <router-link
         to="/login"
         style="text-decoration: none; color: white"
@@ -21,28 +22,28 @@
         class="ml-2"
       >
         <v-btn icon style="color: black">
-          <v-icon>mdi-cart </v-icon> {{ this.productosEnCarrito }}
+          <v-icon>mdi-cart </v-icon> {{ cart }}
         </v-btn>
       </router-link>
     </v-container>
   </v-app-bar>
 </template>
 
+
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { list } from "cart-localstorage";
 
 export default {
+  props: {
+  },
   data() {
     return {};
   },
-  methods: {
-    ...mapActions("carrito", ["mostrarCarrito"]),
-  },
+  methods: {},
   computed: {
-    ...mapGetters("carrito", ["productosEnCarrito"]),
-  },
-  mounted() {
-    this.mostrarCarrito();
+    cart() {
+      return list().length;
+    },
   },
 };
 </script>
@@ -51,5 +52,4 @@ export default {
 * {
   font-family: "Bebas Neue", cursive;
 }
-
 </style>
