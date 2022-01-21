@@ -12,23 +12,16 @@
               <v-card-text>
                 <v-form ref="form" v-model="form" class="pa-4 pt-6">
                   <v-container
-                    v-for="(error, i) in errores"
+                    v-for="(error, i) in this.errores"
                     :key="i"
                     style="color: red"
                   >
-                    <ul
-                      style="
-                        list-style: none;
-                        text-align: center;
-                        font-size: 18px;
-                      "
-                    >
-                      <li>{{ error }}</li>
-                    </ul>
+                    <h4 style="text-align: center">{{ error }}</h4>
                   </v-container>
 
                   <v-text-field
                     :rules="[rules.email]"
+                    @keyup="lowerCase"
                     filled
                     v-model="usuarioLogin.email"
                     name="email"
@@ -46,20 +39,20 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <p class="ml-6 mt-n16">
+                <p class="ml-5" style="font-size: 14px">
                   ¿No tiene una cuenta? Regístrese
                   <router-link to="/registro"> aqui </router-link>
                 </p>
                 <v-spacer></v-spacer>
                 <v-btn
-                  x-large
+                  large
                   :disabled="!form"
                   :loading="isLoading"
                   class="white--text mr-6"
                   color="blue accent-4"
                   style="border-radius: 15px"
                   depressedcolor="primary"
-                  @click="loginUsers(usuarioLogin)"
+                  @click="userLogin(usuarioLogin)"
                   >Ingresar</v-btn
                 >
               </v-card-actions>
@@ -73,14 +66,10 @@
 
 <script>
 import Navbar from "./Navbar.vue";
-import axios from "axios";
-
+import { mapActions, mapState } from "vuex";
 export default {
-  axios,
   data() {
     return {
-      errores: [],
-      logued: Boolean,
       form: false,
       isLoading: false,
       rules: {
@@ -97,24 +86,20 @@ export default {
   components: {
     Navbar,
   },
+  computed: {
+    ...mapState("users", ["errores"]),
+  },
   methods: {
-    loginUsers(dataUser) {
-      axios
-        .get("https://61b1fcaec8d4640017aaf0ec.mockapi.io/users", dataUser)
-        .then((data) => {
-          this.errores = [];
-          for (let i = 0; i < data.data.length; i++) {
-            if (
-              data.data[i].jwt === localStorage.token &&
-              dataUser.email === localStorage.email &&
-              dataUser.password === localStorage.password
-            ) {
-              this.$router.push("/");
-            } else {
-              this.errores.push("Algunos de los datos es incorrecto");
-            }
-          }
-        });
+    ...mapActions("users", ["loginUsers"]),
+
+    userLogin(dataUsuario) {
+      this.loginUsers(dataUsuario);
+      if (localStorage.logueado) {
+        this.$router.push("/");
+      }
+    },
+    lowerCase() {
+      this.usuarioLogin.email = this.usuarioLogin.email.toLowerCase();
     },
   },
 };
@@ -128,7 +113,7 @@ export default {
   background: url("../assets/bg-image-cart.jpg");
   color: white;
   display: flex;
-  height: 200px;
+  height: 400px;
   justify-content: center;
   align-items: center;
   font-size: 70px;

@@ -68,6 +68,7 @@ export default {
         this.show = false;
       }, 1000);
     },
+    
   },
   computed: {
     ...mapState("productos", ["productos"]),

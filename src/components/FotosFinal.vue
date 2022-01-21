@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <template v-for="(url, i) in url">
-        <v-col :key="i" cols="12" lg="3">
+        <v-col :key="i" cols="12" lg="3" md="3">
           <v-card
             class="d-flex align-center justify-space-between mt-5 mb-5 zoom"
           >

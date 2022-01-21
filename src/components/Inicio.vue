@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar />
+    <Navbar :logueado="login" />
     <Banner />
     <Carrousel />
     <v-divider></v-divider>
@@ -28,7 +28,9 @@ import Foto from "./FotosFinal.vue";
 export default {
   name: "Inicio",
   data() {
-    return {};
+    return {
+      login: true,
+    };
   },
   components: {
     Navbar,

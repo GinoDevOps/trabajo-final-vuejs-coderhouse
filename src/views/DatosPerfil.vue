@@ -3,23 +3,21 @@
     <v-container>
       <Navbar />
     </v-container>
-    <Menu />
-    <Footer />
+    <v-container> </v-container>
+    <Datos />
   </v-app>
 </template>
 
 <script>
 // @ is an alias to /src
 import Navbar from "@/components/Navbar.vue";
-import Footer from "@/components/Footer.vue";
-import Menu from "@/components/ListadoProductos.vue";
+import Datos from "@/components/DatosUsuario.vue";
 
 export default {
-  name: "menu",
+  name: "datos",
   components: {
+    Datos,
     Navbar,
-    Menu,
-    Footer,
   },
 };
 </script>

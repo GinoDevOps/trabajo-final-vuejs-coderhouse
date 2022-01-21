@@ -7,7 +7,7 @@
         v-on="on"
         style="border-radius: 15px"
       >
-        <v-icon>mdi-plus-circle</v-icon></v-btn
+        INFO</v-btn
       >
     </template>
     <template v-slot:default="dialog">

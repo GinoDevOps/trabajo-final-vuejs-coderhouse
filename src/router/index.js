@@ -40,6 +40,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Menu.vue"),
   },
+  {
+    path: "/datos",
+    name: "Datos",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/DatosPerfil.vue"),
+  },
 
 ];
 

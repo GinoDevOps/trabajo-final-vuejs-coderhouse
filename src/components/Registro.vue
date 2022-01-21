@@ -12,6 +12,7 @@
               <v-card-text>
                 <v-form ref="form" v-model="form" class="pa-4 pt-6">
                   <v-text-field
+                   @keyup="lowerCase"
                     v-model="usuarioCreado.name"
                     filled
                     color="deep-purple"
@@ -19,6 +20,7 @@
                     type="name"
                   ></v-text-field>
                   <v-text-field
+                    @keyup="lowerCase"
                     v-model="usuarioCreado.email"
                     :rules="[rules.email]"
                     filled
@@ -27,12 +29,35 @@
                     type="email"
                   ></v-text-field>
                   <v-text-field
-                    v-model="usuarioCreado.phone"
+                    @keyup="lowerCase"
+                    v-model="usuarioCreado.direccion"
                     filled
                     color="deep-purple"
-                    label="Telefono"
+                    label="Dirección para envios"
+                    type="direccion"
                   ></v-text-field>
-                  <v-text-field
+                  <v-container class="d-flex">
+                    <v-col cols="12" sm="6" md="6">
+                      <v-text-field
+                        @keyup="lowerCase"
+                        color="deep-purple"
+                        v-model="usuarioCreado.localidad"
+                        filled
+                        label="Localidad"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="6">
+                      <v-text-field
+                        @keyup="lowerCase"
+                        color="deep-purple"
+                        v-model="usuarioCreado.provincia"
+                        filled
+                        label="Provincia"
+                      ></v-text-field>
+                    </v-col>
+                  </v-container>
+
+                  <v-text-field 
                     v-model="usuarioCreado.password"
                     :rules="[rules.password, rules.length(8)]"
                     filled
@@ -44,20 +69,19 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <p class="ml-6 mt-n16">
+                <p class="ml-5" style="font-size: 14px">
                   ¿Ya tienes cuenta? Inicie sesion
                   <router-link to="/login"> aqui </router-link>
                 </p>
                 <v-spacer></v-spacer>
                 <v-btn
-                x-large
+                  large
                   :disabled="!form"
                   :loading="isLoading"
                   class="white--text mr-6"
                   color="blue accent-4"
                   style="border-radius: 15px"
                   depressedcolor="primary"
-                  
                   @click="userRegister(usuarioCreado)"
                 >
                   Registrarse
@@ -86,6 +110,7 @@
 
 <script>
 import Navbar from "./Navbar.vue";
+import { mapActions } from "vuex";
 
 export default {
   data: () => ({
@@ -105,17 +130,24 @@ export default {
     usuarioCreado: {
       name: "",
       email: "",
-      phone: undefined,
       password: "",
+      direccion: "",
+      localidad: "",
+      provincia: "",
     },
   }),
   methods: {
+    ...mapActions("users", ["registroUsuario"]),
+
     userRegister(dataRegister) {
       this.alerta = true;
-      this.$store.dispatch("registroUsuario", dataRegister);
+      this.registroUsuario(dataRegister);
       setTimeout(() => {
         this.alerta = false;
       }, 4000);
+    },
+    lowerCase() {
+      this.usuarioCreado.email = this.usuarioCreado.email.toLowerCase();
     },
   },
   components: {
@@ -132,7 +164,7 @@ export default {
   background: url("../assets/bg-image-cart.jpg");
   color: white;
   display: flex;
-  height: 200px;
+  height: 400px;
   justify-content: center;
   align-items: center;
   font-size: 70px;

@@ -1,7 +1,9 @@
 <template>
   <v-app>
-    <Navbar />
-    <h1 class="titulo mt-8">Carrito</h1>
+    <v-container>
+      <Navbar />
+    </v-container>
+    <h1 class="tituloCarrito">Carrito</h1>
     <v-container mt-15>
       <v-row>
         <v-col cols="12" class="d-flex mt-1 mb-3 align-center justify-center">
@@ -24,14 +26,14 @@
                 <v-container class="d-flex">
                   <v-container
                     class="d-flex flex-column justify-center"
-                    style="max-width: 50%"
+                    style="max-width: 65%"
                   >
                     <v-row class="mb-2">
-                      <v-btn @click="decrease(producto)" class="mr-3"
+                      <v-btn @click="decrease(producto)" class="mr-2" small
                         ><v-icon>mdi-minus-circle</v-icon></v-btn
                       >
                       <h2>{{ producto.quantity }}</h2>
-                      <v-btn @click="increase(producto)" class="ml-3"
+                      <v-btn @click="increase(producto)" class="ml-2" small
                         ><v-icon>mdi-plus-circle</v-icon></v-btn
                       >
                     </v-row>
@@ -86,28 +88,40 @@
 
               <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-container class="d-flex justify-end mb-6">
-                    <v-btn
-                      x-large
-                      color="error"
-                      dark
-                      class="mr-5"
-                      @click="destroyCart()"
-                    >
-                      Eliminar carrito
-                    </v-btn>
-                    <v-btn
-                      x-large
-                      color="primary"
-                      dark
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                      Continuar compra
-                    </v-btn>
-                  </v-container>
+                  <v-row width="100%">
+                    <v-col cols="12" lg="12">
+                      <v-container class="d-flex flex-column align-end">
+                        <v-btn
+                          width="150px"
+                          x-large
+                          color="error"
+                          dark
+                          class="mb-4"
+                          @click="destroyCart()"
+                        >
+                          Eliminar carrito
+                        </v-btn>
+                        <v-btn
+                          width="150px"
+                          x-large
+                          color="primary"
+                          dark
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          Continuar compra
+                        </v-btn>
+                      </v-container>
+                    </v-col>
+                  </v-row>
                 </template>
-                <v-form ref="form" v-model="valid" lazy-validation>
+
+                <v-form
+                  ref="form"
+                  v-if="logueado"
+                  v-model="valid"
+                  lazy-validation
+                >
                   <v-card>
                     <v-card-title>
                       <span style="font-size: 24px">Tu pedido</span>
@@ -180,6 +194,82 @@
                     </v-card-actions>
                   </v-card>
                 </v-form>
+
+                <v-form ref="form" v-else v-model="valid" lazy-validation>
+                  <v-card>
+                    <v-card-title>
+                      <span style="font-size: 24px"
+                        >Pedido de {{ nameLogin() }}</span
+                      >
+                    </v-card-title>
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12" sm="6" md="6">
+                            <v-text-field
+                              label="Nombre"
+                              :value="nameLogin()"
+                              :rules="nameRules"
+                            ></v-text-field>
+                          </v-col>
+
+                          <v-container>
+                            <h3>¿Donde querés recibir tu pedido?</h3>
+                          </v-container>
+                          <v-col cols="12" sm="12" md="12">
+                            <v-text-field
+                              label="Dirección"
+                              :value="direcc()"
+                              :rules="addresRules"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6" md="6">
+                            <v-text-field
+                              label="Localidad"
+                              :value="localidad()"
+                              :rules="addresRules"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6" md="6">
+                            <v-text-field
+                              label="Provincia"
+                              :value="provincia()"
+                              :rules="addresRules"
+                            ></v-text-field>
+                          </v-col>
+                          <v-container>
+                            <h3>¿Cómo querés pagar?</h3>
+                            <v-radio-group v-model="toggle">
+                              <v-radio
+                                label="Efectivo"
+                                color="primary"
+                                value="efectivo"
+                              ></v-radio>
+                              <v-radio
+                                label="Tarjeta débito/crédito"
+                                color="primary"
+                                value="tarjeta"
+                              ></v-radio>
+                            </v-radio-group>
+                          </v-container>
+                        </v-row>
+                      </v-container>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn color="white--text red darken-1" @click="close()">
+                        Cancelar
+                      </v-btn>
+                      <v-btn
+                        color="white--text green darken-1"
+                        @click="sendOrder()"
+                      >
+                        <v-icon left> mdi-whatsapp</v-icon>
+                        Realizar pedido</v-btn
+                      >
+                    </v-card-actions>
+                  </v-card>
+                </v-form>
               </v-dialog>
             </v-container>
           </v-container>
@@ -198,6 +288,7 @@ export default {
     Navbar,
   },
   data: () => ({
+    logueado: true,
     valid: true,
     loader: false,
     carritoVacio: false,
@@ -220,6 +311,11 @@ export default {
     addresRules: [(v) => !!v || "La dirección es requerida"],
   }),
   methods: {
+    loginStatus() {
+      if (localStorage.logueado === "true") {
+        this.logueado = false;
+      }
+    },
     cart() {
       if (list().length == 0) {
         this.carritoVacio = true;
@@ -235,6 +331,18 @@ export default {
     },
     listProducts() {
       return list();
+    },
+    nameLogin() {
+      return localStorage.name;
+    },
+    direcc() {
+      return localStorage.direccion;
+    },
+    localidad() {
+      return localStorage.localidad;
+    },
+    provincia() {
+      return localStorage.provincia;
     },
     remove(id) {
       remove(id);
@@ -263,14 +371,14 @@ export default {
             elem.price.toString() +
             ".";
           addressMessage =
-            this.userAddress.direccion +
+            (this.userAddress.direccion || this.direcc()) +
             ", " +
-            this.userAddress.localidad +
+            (this.userAddress.localidad || this.localidad()) +
             ", " +
-            this.userAddress.provincia;
+            (this.userAddress.provincia || this.provincia());
         });
         window.location.href = `https://wa.me/5491132686326?text=Hola+,+mi+nombre+es+${
-          this.dataUser.nombre
+          this.dataUser.nombre || this.nameLogin()
         }%21%0D%0AQuiero+realizar+un+pedido+de+los+siguientes+items%3A${
           productsString +
           " La dirección de envio seria: " +
@@ -300,6 +408,7 @@ export default {
   },
   mounted() {
     this.cart();
+    this.loginStatus();
   },
   watch: {
     dialog(val) {
@@ -313,7 +422,7 @@ export default {
 * {
   font-family: "Bebas Neue", cursive;
 }
-.titulo {
+.tituloCarrito {
   background: url("../assets/bg-image-cart.jpg");
   color: white;
   display: flex;

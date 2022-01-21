@@ -7,11 +7,15 @@
       v-for="(data, index) in data"
       :key="index"
     >
-      <v-card class="d-flex flex-column align-center" width="400" style="box-shadow: none">
+      <v-card
+        class="d-flex flex-column align-center justify-center"
+        width="400"
+        style="box-shadow: none"
+      >
         <v-img :src="data.imagen" width="150"></v-img>
-        <v-card-title class="tituloData" >{{ data.titulo }}</v-card-title>
+        <v-card-title class="tituloData">{{ data.titulo }}</v-card-title>
         <v-divider class="divider mb-4"></v-divider>
-        <p>{{ data.descripcion }}</p>
+        <h5 class="mx-auto">{{ data.descripcion }}</h5>
       </v-card>
     </v-col>
   </v-row>
@@ -30,11 +34,12 @@ export default {
         {
           imagen: require("../assets/credit-card.png"),
           titulo: "ELEGÍ CÓMO PAGAR",
-          descripcion: "Podés pagar con tarjeta, débito o efectivo (Link de MercadoPago)",
+          descripcion:
+            "Podés pagar con tarjeta, débito o efectivo",
         },
         {
           imagen: require("../assets/restaurante.png"),
-          titulo: "LA MEJOR VARIEDAD DE COMIDAS",
+          titulo: "LA MEJOR COMIDA",
           descripcion: "¡Gran variedad de platos gourmet y bebidas!",
         },
         {
@@ -54,8 +59,8 @@ export default {
   font-family: "Bebas Neue", cursive;
 }
 
-.tituloData{
-    font-size: 28px;
+.tituloData {
+  font-size: 28px;
 }
 .divider {
   border-width: 2px;
