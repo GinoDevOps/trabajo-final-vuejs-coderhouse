@@ -4,7 +4,21 @@
     <v-container width="100vh">
       <v-img :src="avatar()" class="image mx-auto"></v-img>
       <v-container class="d-flex">
-        <v-container class="d-flex justify-center" width="100vh">
+        <v-container
+          class="d-flex justify-start align-center"
+          style="width: 0px"
+        >
+          <v-container v-if="adminLogued">
+            <v-btn
+              @click="administrador()"
+              color="primary"
+              style="border-radius: 15px"
+              class="zoom"
+              >Administrador</v-btn
+            >
+          </v-container>
+        </v-container>
+        <v-container class="d-flex justify-center align-center" width="100vh">
           <h1>{{ nameLogin() }}</h1>
         </v-container>
         <v-container class="d-flex justify-end align-center" style="width: 0px">
@@ -23,7 +37,7 @@
       <v-row>
         <template>
           <v-col cols="12" class="d-flex align-center justify-center">
-            <v-card width="800px" shaped>
+            <v-card width="1000px" shaped>
               <v-img
                 class="white--text align-end"
                 height="100px"
@@ -66,11 +80,18 @@ import Swal from "sweetalert2";
 export default {
   data() {
     return {
+      adminLogued: false,
       dialog: false,
       nuevoIndex: -1,
     };
   },
   methods: {
+    loginStatus() {
+      if (localStorage.logueadoAdmin === "true") {
+        this.adminLogued = true;
+        this.loginStatus;
+      }
+    },
     avatar() {
       return localStorage.avatar;
     },
@@ -90,7 +111,11 @@ export default {
       return localStorage.provincia;
     },
     logOut() {
-      if (localStorage.logueado === "true") {
+      console.log(localStorage);
+      if (
+        localStorage.logueado === "true" ||
+        localStorage.logueadoAdmin === "true"
+      ) {
         Swal.fire({
           title: "¿Quieres cerrar sesión?",
           icon: "question",
@@ -114,8 +139,17 @@ export default {
         this.nuevoIndex = -1;
       });
     },
+
+    administrador() {
+      if (localStorage.logueadoAdmin === "true") {
+        this.adminLogued = true;
+        location.href = "/admin";
+      }
+    },
   },
-  computed: {},
+  mounted() {
+    this.loginStatus();
+  },
   watch: {
     dialog(val) {
       val || this.close();

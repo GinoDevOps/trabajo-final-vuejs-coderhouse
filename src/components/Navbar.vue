@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-app-bar denseclipped-left flat fixed>
+  <v-container>
+    <v-app-bar denseclipped-left flat fixed     >
       <div v-if="$vuetify.breakpoint.xsOnly">
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </div>
@@ -34,7 +34,10 @@
 
       <v-spacer></v-spacer>
 
-      <router-link to="/" style="text-decoration: none; color: black">
+      <router-link
+        to="/"
+        style="text-decoration: none; color: black; text-align: center"
+      >
         <v-toolbar-title style="font-size: 30px"
           >the food truck</v-toolbar-title
         >
@@ -128,7 +131,7 @@
         </div>
       </template>
     </v-navigation-drawer>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -144,7 +147,10 @@ export default {
   },
   methods: {
     loginStatus() {
-      if (localStorage.logueado === "true") {
+      if (
+        localStorage.logueado === "true" ||
+        localStorage.logueadoAdmin === "true"
+      ) {
         this.logueado = false;
         this.loginStatus;
       }
@@ -156,7 +162,10 @@ export default {
       return localStorage.name;
     },
     logOut() {
-      if (localStorage.logueado === "true") {
+      if (
+        localStorage.logueado === "true" ||
+        localStorage.logueadoAdmin === "true"
+      ) {
         Swal.fire({
           title: "¿Quieres cerrar sesión?",
           icon: "question",

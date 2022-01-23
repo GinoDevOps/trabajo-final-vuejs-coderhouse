@@ -4,100 +4,33 @@
       <Navbar />
     </v-container>
     <h1 class="tituloLogin">Ingresar</h1>
-    <v-container fill-height fluid>
-      <v-container align-center class="mt-n9">
-        <v-layout>
-          <v-flex>
-            <v-card>
-              <v-card-text>
-                <v-form ref="form" v-model="form" class="pa-4 pt-6">
-                  <v-container
-                    v-for="(error, i) in this.errores"
-                    :key="i"
-                    style="color: red"
-                  >
-                    <h4 style="text-align: center">{{ error }}</h4>
-                  </v-container>
-
-                  <v-text-field
-                    :rules="[rules.email]"
-                    @keyup="lowerCase"
-                    filled
-                    v-model="usuarioLogin.email"
-                    name="email"
-                    label="Email"
-                    type="text"
-                  ></v-text-field>
-                  <v-text-field
-                    filled
-                    :rules="[rules.password]"
-                    v-model="usuarioLogin.password"
-                    name="password"
-                    label="Contraseña"
-                    type="password"
-                  ></v-text-field>
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <p class="ml-5" style="font-size: 14px">
-                  ¿No tiene una cuenta? Regístrese
-                  <router-link to="/registro"> aqui </router-link>
-                </p>
-                <v-spacer></v-spacer>
-                <v-btn
-                  large
-                  :disabled="!form"
-                  :loading="isLoading"
-                  class="white--text mr-6"
-                  color="blue accent-4"
-                  style="border-radius: 15px"
-                  depressedcolor="primary"
-                  @click="userLogin(usuarioLogin)"
-                  >Ingresar</v-btn
-                >
-              </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-container>
+    <v-tabs centered class="mt-3">
+      <v-tab style="font-size: 20px">Usuario</v-tab>
+      <v-tab style="font-size: 20px">Admin</v-tab>
+      <v-tab-item>
+        <v-container>
+          <LoginUser />
+        </v-container>
+      </v-tab-item>
+      <v-tab-item>
+        <v-container>
+          <LoginAdmin />
+        </v-container>
+      </v-tab-item>
+    </v-tabs>
   </v-app>
 </template>
 
 <script>
 import Navbar from "./Navbar.vue";
-import { mapActions, mapState } from "vuex";
+import LoginUser from "./LoginUsuario.vue";
+import LoginAdmin from "./LoginAdmin.vue";
+
 export default {
-  data() {
-    return {
-      form: false,
-      isLoading: false,
-      rules: {
-        email: (v) => !!(v || "").match(/@/) || "Ingresa un mail valido",
-        password: (v) =>
-          (v || "").length >= 8 || `Ingresa una contraseña valida`,
-      },
-      usuarioLogin: {
-        email: "",
-        password: "",
-      },
-    };
-  },
   components: {
     Navbar,
-  },
-  computed: {
-    ...mapState("users", ["errores"]),
-  },
-  methods: {
-    ...mapActions("users", ["loginUsers"]),
-
-    userLogin(dataUsuario) {
-      this.loginUsers(dataUsuario);
-    },
-    lowerCase() {
-      this.usuarioLogin.email = this.usuarioLogin.email.toLowerCase();
-    },
+    LoginUser,
+    LoginAdmin,
   },
 };
 </script>
@@ -110,7 +43,7 @@ export default {
   background: url("../assets/bg-image-cart.jpg");
   color: white;
   display: flex;
-  height: 400px;
+  height: 300px;
   justify-content: center;
   align-items: center;
   font-size: 70px;

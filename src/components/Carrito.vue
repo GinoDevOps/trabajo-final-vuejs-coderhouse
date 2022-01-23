@@ -122,7 +122,12 @@
                   v-model="valid"
                   lazy-validation
                 >
-                  <v-card>
+                  <v-card v-if="loginAdmin">
+                    <v-card-title style="text-align: center">
+                      ¡Usuarios administradores no pueden realizar pedidos!
+                    </v-card-title>
+                  </v-card>
+                  <v-card v-else>
                     <v-card-title>
                       <span style="font-size: 24px">Tu pedido</span>
                     </v-card-title>
@@ -288,6 +293,7 @@ export default {
     Navbar,
   },
   data: () => ({
+    loginAdmin: false,
     logueado: true,
     valid: true,
     loader: false,
@@ -314,6 +320,9 @@ export default {
     loginStatus() {
       if (localStorage.logueado === "true") {
         this.logueado = false;
+      }
+      if (localStorage.logueadoAdmin === "true") {
+        this.loginAdmin = true;
       }
     },
     cart() {
