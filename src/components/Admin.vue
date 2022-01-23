@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Navbar />
-    <h1 class="mt-15 titulo">Administrador de la tienda</h1>
+    <h1 class="titulo">Administrador de la tienda</h1>
     <v-sheet color="grey" v-if="loader">
       <v-skeleton-loader type="table"> </v-skeleton-loader>
     </v-sheet>

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-app-bar denseclipped-left flat fixed     >
+    <v-app-bar denseclipped-left flat fixed>
       <div v-if="$vuetify.breakpoint.xsOnly">
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </div>
@@ -38,7 +38,7 @@
         to="/"
         style="text-decoration: none; color: black; text-align: center"
       >
-        <v-toolbar-title style="font-size: 30px"
+        <v-toolbar-title style="font-size: 40px"
           >the food truck</v-toolbar-title
         >
       </router-link>
@@ -187,7 +187,6 @@ export default {
   mounted() {
     this.loginStatus();
   },
-  computed: {},
   watch: {
     group() {
       this.drawer = false;

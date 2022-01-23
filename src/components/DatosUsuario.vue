@@ -143,7 +143,7 @@ export default {
     administrador() {
       if (localStorage.logueadoAdmin === "true") {
         this.adminLogued = true;
-        this.$router.push("/admin")
+        this.$router.push("/admin");
       }
     },
   },
