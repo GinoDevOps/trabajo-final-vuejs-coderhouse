@@ -46,7 +46,6 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/DatosPerfil.vue"),
   },
-
 ];
 
 const router = new VueRouter({

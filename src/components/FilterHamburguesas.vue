@@ -12,7 +12,7 @@
         </v-skeleton-loader>
       </v-sheet>
       <v-card v-else shaped class="zoom">
-        <v-img
+        <v-img  
           :src="producto.image"
           width="500"
           height="300"
@@ -59,26 +59,23 @@ export default {
   },
   methods: {
     ...mapActions("productos", ["mostrarProductos"]),
-
     agregarAlCarrito(producto) {
       this.show = true;
       add(producto, 1);
       setTimeout(() => {
-        location.reload();
         this.show = false;
       }, 1000);
     },
-    
   },
   computed: {
     ...mapState("productos", ["productos"]),
-
     filtroHamburguesas() {
       return this.productos.filter((elem) => elem.category === "hamburguesas");
     },
   },
   mounted() {
     this.mostrarProductos();
+
     setTimeout(() => {
       this.loader = false;
       this.$forceUpdate();

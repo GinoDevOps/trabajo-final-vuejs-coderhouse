@@ -1,17 +1,15 @@
 <template>
-  <Admin/>
+  <Admin />
 </template>
 
 <script>
 // @ is an alias to /src
-import Admin from '@/components/Admin.vue'
-
+import Admin from "@/components/Admin.vue";
 
 export default {
-  name: 'carrito',
+  name: "admin",
   components: {
-    Admin
-   
-  }
-}
+    Admin,
+  },
+};
 </script>

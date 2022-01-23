@@ -94,9 +94,6 @@ export default {
 
     userLogin(dataUsuario) {
       this.loginUsers(dataUsuario);
-      if (localStorage.logueado) {
-        this.$router.push("/");
-      }
     },
     lowerCase() {
       this.usuarioLogin.email = this.usuarioLogin.email.toLowerCase();

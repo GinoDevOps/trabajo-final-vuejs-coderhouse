@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar :logueado="login" />
+    <Navbar />
     <Banner />
     <Carrousel />
     <v-divider></v-divider>

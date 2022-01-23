@@ -93,7 +93,6 @@
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon small @click="eliminarProducto(item.id)"> mdi-delete </v-icon>
-        <v-icon small> mdi-pencil </v-icon>
       </template>
       <template v-slot:no-data>
         <p>No hay productos</p>

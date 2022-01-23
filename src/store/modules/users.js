@@ -48,6 +48,7 @@ export default {
               localStorage.setItem("localidad", data.data[i].localidad);
               localStorage.setItem("provincia", data.data[i].provincia);
               localStorage.setItem("avatar", data.data[i].avatar);
+              location.href = "/";
             }
           }
           if (!user) {

@@ -17,20 +17,13 @@
           </router-link>
         </div>
         <div v-else class="d-flex align-center">
-          <v-btn
-            @click="logOut()"
-            x-small
-            color="error"
-            style="border-radius: 15px"
-            class="zoom"
-            >Cerrar Sesion</v-btn
-          >
           <router-link
             to="/datos"
             style="text-decoration: none; color: black"
             width="100%"
           >
             <v-list-item class="d-flex align-center">
+              <v-img :src="avatar()" class="image mr-3"></v-img>
               <v-list-item-title width="100%" style="font-size: 22px"
                 >{{ nameLogin() }}
               </v-list-item-title>
@@ -42,7 +35,7 @@
       <v-spacer></v-spacer>
 
       <router-link to="/" style="text-decoration: none; color: black">
-        <v-toolbar-title style="font-size: 30px "
+        <v-toolbar-title style="font-size: 30px"
           >the food truck</v-toolbar-title
         >
       </router-link>
@@ -54,7 +47,7 @@
         class="ml-2"
       >
         <v-btn icon style="color: black">
-          <v-icon>mdi-cart </v-icon> {{ cart }}
+          <v-icon>mdi-cart </v-icon>
         </v-btn>
       </router-link>
     </v-app-bar>
@@ -139,7 +132,6 @@
 </template>
 
 <script>
-import { list } from "cart-localstorage";
 import Swal from "sweetalert2";
 
 export default {
@@ -154,12 +146,15 @@ export default {
     loginStatus() {
       if (localStorage.logueado === "true") {
         this.logueado = false;
+        this.loginStatus;
       }
+    },
+    avatar() {
+      return localStorage.avatar;
     },
     nameLogin() {
       return localStorage.name;
     },
-   
     logOut() {
       if (localStorage.logueado === "true") {
         Swal.fire({
@@ -180,14 +175,10 @@ export default {
       }
     },
   },
-  computed: {
-    cart() {
-      return list().length;
-    },
-  },
   mounted() {
     this.loginStatus();
   },
+  computed: {},
   watch: {
     group() {
       this.drawer = false;
@@ -202,5 +193,13 @@ export default {
 }
 .infoLg {
   width: 0;
+}
+.image {
+  height: 25px;
+  width: 25px;
+  background-repeat: no-repeat;
+  background-position: 100%;
+  border-radius: 100%;
+  background-size: 100% auto;
 }
 </style>
