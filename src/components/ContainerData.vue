@@ -34,8 +34,7 @@ export default {
         {
           imagen: require("../assets/credit-card.png"),
           titulo: "ELEGÍ CÓMO PAGAR",
-          descripcion:
-            "Podés pagar con tarjeta, débito o efectivo",
+          descripcion: "Podés pagar con tarjeta, débito o efectivo",
         },
         {
           imagen: require("../assets/restaurante.png"),

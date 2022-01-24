@@ -1,5 +1,10 @@
 <template>
-  <v-parallax class="banner d-flex align-center justify-center" dark height="450" src="../assets/parallax.png" >
+  <v-parallax
+    class="banner d-flex align-center justify-center"
+    dark
+    height="450"
+    src="../assets/parallax.png"
+  >
     <v-row align="center" justify="center">
       <v-col class="text-center" cols="12">
         <h1 style="font-size: 55px">Fast Food Gourmet</h1>

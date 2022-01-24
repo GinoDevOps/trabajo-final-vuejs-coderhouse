@@ -191,7 +191,7 @@ export default {
   height: 200px;
   justify-content: center;
   align-items: center;
-  font-size: 70px;
+  font-size: 60px;
 }
 .textArea {
   background-color: white;

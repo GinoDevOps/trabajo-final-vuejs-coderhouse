@@ -3,30 +3,47 @@
     <h1 class="tituloUsuario">Perfil</h1>
     <v-container width="100vh">
       <v-img :src="avatar()" class="image mx-auto"></v-img>
-      <v-container class="d-flex">
-        <v-container
-          class="d-flex justify-start align-center"
-          style="width: 0px"
-        >
-          <v-container v-if="adminLogued">
-            <v-btn
-              @click="administrador()"
-              color="primary"
-              style="border-radius: 15px"
-              class="zoom"
-              >Administrador</v-btn
-            >
-          </v-container>
+      <v-container
+        v-if="$vuetify.breakpoint.xsOnly"
+        class="d-flex align-center justify-center"
+      >
+        <h1>{{ nameLogin() }}</h1>
+        <v-container class="d-flex flex-column align-end">
+          <v-btn
+            v-if="adminLogued"
+            width="160px"
+            @click="administrador()"
+            color="primary"
+            style="border-radius: 15px"
+            class="mb-3"
+            >Administrador</v-btn
+          >
+
+          <v-btn
+            width="160px"
+            @click="logOut()"
+            color="error"
+            style="border-radius: 15px"
+            >Cerrar Sesion</v-btn
+          >
         </v-container>
-        <v-container class="d-flex justify-center align-center" width="100vh">
-          <h1>{{ nameLogin() }}</h1>
-        </v-container>
-        <v-container class="d-flex justify-end align-center" style="width: 0px">
+      </v-container>
+      <v-container v-else class="d-flex align-center justify-center ">
+        <h1>{{ nameLogin() }}</h1>
+        <v-container class="d-flex justify-end">
+          <v-btn
+            v-if="adminLogued"
+            @click="administrador()"
+            color="primary"
+            style="border-radius: 15px"
+            class="mr-4"
+            >Administrador</v-btn
+          >
+
           <v-btn
             @click="logOut()"
             color="error"
             style="border-radius: 15px"
-            class="zoom"
             >Cerrar Sesion</v-btn
           >
         </v-container>
@@ -89,6 +106,7 @@ export default {
     loginStatus() {
       if (localStorage.logueadoAdmin === "true") {
         this.adminLogued = true;
+        console.log(localStorage);
         this.loginStatus;
       }
     },

@@ -2,22 +2,20 @@
   <v-container>
     <v-row class="d-flex align-center justify-space-between">
       <template v-for="(url, i) in data">
-        <v-col :key="i" cols="12" lg="3" md="3">
-          <v-hover v-slot="{ hover }">
-            <router-link to="/menu" style="text-decoration: none">
-              <v-card
-                shaped
-                :style="`background: url(${url.url}) no-repeat center center;  background-size: auto 100%` "
-                :elevation="hover ? 12 : 2"
-                :class="{ 'on-hover': hover }"
-                height="400"
-                width="550"
-                class="d-flex align-end justify-center mt-5 mb-5 zoom mx-auto"
-              >
-                <v-card-title style="font-size:40px; color:white" >{{ url.title }}</v-card-title>
-              </v-card>
-            </router-link>
-          </v-hover>
+        <v-col :key="i" cols="12" lg="3" md="3"
+          ><router-link to="/menu" style="text-decoration: none">
+            <v-card
+              shaped
+              :style="`background: url(${url.url}) no-repeat center center;  background-size: auto 100%`"
+              height="400"
+              width="550"
+              class="d-flex align-end justify-center mt-5 mb-5 zoom mx-auto"
+            >
+              <v-card-title style="font-size: 40px; color: white">{{
+                url.title
+              }}</v-card-title>
+            </v-card>
+          </router-link>
         </v-col>
       </template>
     </v-row>
@@ -51,11 +49,5 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 * {
   font-family: "Bebas Neue", cursive;
-}
-.zoom {
-  transition: 0.2s;
-}
-.zoom:hover {
-  transform: scale(1.02);
 }
 </style>
