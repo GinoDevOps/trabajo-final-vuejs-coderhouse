@@ -12,7 +12,7 @@
         </v-skeleton-loader>
       </v-sheet>
       <v-card v-else shaped class="zoom">
-        <v-img  
+        <v-img
           :src="producto.image"
           width="500"
           height="300"
@@ -43,9 +43,7 @@
 
 <script>
 import ProductoInfo from "./InformacionProductos.vue";
-
-import { add } from "cart-localstorage";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions  } from "vuex";
 
 export default {
   data() {
@@ -59,9 +57,10 @@ export default {
   },
   methods: {
     ...mapActions("productos", ["mostrarProductos"]),
+
     agregarAlCarrito(producto) {
       this.show = true;
-      add(producto, 1);
+      this.$store.commit("addToCart", producto);
       setTimeout(() => {
         this.show = false;
       }, 1000);
@@ -75,7 +74,6 @@ export default {
   },
   mounted() {
     this.mostrarProductos();
-
     setTimeout(() => {
       this.loader = false;
       this.$forceUpdate();

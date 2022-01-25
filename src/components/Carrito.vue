@@ -13,7 +13,7 @@
           <v-container v-else>
             <v-card
               class="d-lg-flex align-center mt-4"
-              v-for="(producto, i) in listProducts()"
+              v-for="(producto, i) in this.$store.state.cart"
               :key="i"
               color="grey lighten-5"
             >
@@ -53,7 +53,7 @@
                     class="ml-2"
                     color="error"
                     style="border-radius: 15px"
-                    @click="remove(producto.id)"
+                    @click="removeFromCart(producto)"
                     >Eliminar</v-btn
                   >
                 </v-card-actions>
@@ -83,7 +83,7 @@
 
             <v-container v-else>
               <v-container ontainer class="d-flex justify-end mb-6">
-                <h2>Total: ${{ totalCart() }}</h2>
+                <h2>Total: ${{ totalPrice }}</h2>
               </v-container>
 
               <v-dialog v-model="dialog" max-width="500px">
@@ -286,7 +286,6 @@
 
 <script>
 import Navbar from "./Navbar.vue";
-import { list, remove, quantity, total, destroy } from "cart-localstorage";
 
 export default {
   components: {
@@ -325,41 +324,33 @@ export default {
         this.loginAdmin = true;
       }
     },
-    cart() {
-      if (list().length == 0) {
-        this.carritoVacio = true;
+    removeFromCart(item) {
+      this.$store.commit("removeFromCart", item);
+      this.cart();
+    },
+    productPrice(item) {
+      return item.price * item.quantity;
+    },
+    increase(item) {
+      if (item.quantity < item.disponibles) {
+        return item.quantity++;
       }
     },
-    increase(producto) {
-      quantity(producto.id, 1);
-      this.$forceUpdate();
+    decrease(item) {
+      if (item.quantity > 1) {
+        return item.quantity--;
+      }
     },
-    decrease(producto) {
-      quantity(producto.id, -1);
-      this.$forceUpdate();
+    close() {
+      this.dialog = false;
+      this.$nextTick(() => {
+        this.nuevoIndex = -1;
+      });
     },
-    listProducts() {
-      return list();
-    },
-    nameLogin() {
-      return localStorage.name;
-    },
-    direcc() {
-      return localStorage.direccion;
-    },
-    localidad() {
-      return localStorage.localidad;
-    },
-    provincia() {
-      return localStorage.provincia;
-    },
-    remove(id) {
-      remove(id);
-      this.cart();
-      this.$forceUpdate();
-    },
-    productPrice(producto) {
-      return producto.price * producto.quantity;
+    cart() {
+      if (this.$store.state.cart.length == 0) {
+        this.carritoVacio = true;
+      }
     },
     sendOrder() {
       if (
@@ -368,7 +359,7 @@ export default {
       ) {
         let productsString = "";
         let addressMessage = "";
-        list().forEach((elem) => {
+        this.$store.state.cart.forEach((elem) => {
           productsString =
             productsString +
             " " +
@@ -393,26 +384,38 @@ export default {
           " La dirección de envio seria: " +
           addressMessage +
           ". El total seria: $" +
-          total() +
+          this.totalPrice +
           ", paga en: " +
           this.toggle
         }`;
       }
     },
-    close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.nuevoIndex = -1;
-      });
-    },
-    totalCart() {
-      return total();
-    },
     destroyCart() {
-      destroy();
+      this.$store.commit("clearCart");
       this.cart();
+    },
+    nameLogin() {
+      return localStorage.name;
+    },
+    direcc() {
+      return localStorage.direccion;
+    },
+    localidad() {
+      return localStorage.localidad;
+    },
+    provincia() {
+      return localStorage.provincia;
+    },
+  },
+  computed: {
+    totalPrice() {
+      let total = 0;
 
-      this.$forceUpdate();
+      for (let item of this.$store.state.cart) {
+        total += item.price * item.quantity;
+      }
+
+      return total;
     },
   },
   mounted() {

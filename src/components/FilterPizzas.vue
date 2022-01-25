@@ -43,8 +43,7 @@
 
 <script>
 import ProductoInfo from "./InformacionProductos.vue";
-import { add } from "cart-localstorage";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions  } from "vuex";
 
 export default {
   data() {
@@ -61,17 +60,15 @@ export default {
 
     agregarAlCarrito(producto) {
       this.show = true;
-      add(producto, 1);
+      this.$store.commit("addToCart", producto);
       setTimeout(() => {
         this.show = false;
-        location.reload();
       }, 1000);
     },
   },
-
   computed: {
     ...mapState("productos", ["productos"]),
-    filtroPizzas() {
+  filtroPizzas() {
       return this.productos.filter((elem) => elem.category === "pizzas");
     },
   },
@@ -79,6 +76,7 @@ export default {
     this.mostrarProductos();
     setTimeout(() => {
       this.loader = false;
+      this.$forceUpdate();
     }, 500);
   },
 };

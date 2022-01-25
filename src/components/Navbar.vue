@@ -50,7 +50,7 @@
         class="ml-2"
       >
         <v-btn icon style="color: black">
-          <v-icon>mdi-cart </v-icon>
+          <v-icon>mdi-cart </v-icon>{{ itemsLengths }}
         </v-btn>
       </router-link>
     </v-app-bar>
@@ -186,6 +186,11 @@ export default {
   },
   mounted() {
     this.loginStatus();
+  },
+  computed: {
+    itemsLengths() {
+      return this.$store.state.cart.length;
+    },
   },
   watch: {
     group() {
