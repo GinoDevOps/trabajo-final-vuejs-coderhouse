@@ -29,8 +29,11 @@
         </v-container>
       </v-container>
       <v-container v-else class="d-flex align-center justify-center">
-        <h1>{{ nameLogin() }}</h1>
-        <v-container class="d-flex justify-end">
+        <v-container class="d-flex align-center justify-center">
+          <h1>{{ nameLogin() }}</h1>
+        </v-container>
+
+        <v-container class="d-flex justify-center">
           <v-btn
             v-if="adminLogued"
             @click="administrador()"
