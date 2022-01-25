@@ -28,7 +28,7 @@
           >
         </v-container>
       </v-container>
-      <v-container v-else class="d-flex align-center justify-center ">
+      <v-container v-else class="d-flex align-center justify-center">
         <h1>{{ nameLogin() }}</h1>
         <v-container class="d-flex justify-end">
           <v-btn
@@ -40,10 +40,7 @@
             >Administrador</v-btn
           >
 
-          <v-btn
-            @click="logOut()"
-            color="error"
-            style="border-radius: 15px"
+          <v-btn @click="logOut()" color="error" style="border-radius: 15px"
             >Cerrar Sesion</v-btn
           >
         </v-container>

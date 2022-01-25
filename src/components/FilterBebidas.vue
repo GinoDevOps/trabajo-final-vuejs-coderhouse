@@ -43,7 +43,7 @@
 
 <script>
 import ProductoInfo from "./InformacionProductos.vue";
-import { mapState, mapActions  } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   data() {
@@ -68,7 +68,7 @@ export default {
   },
   computed: {
     ...mapState("productos", ["productos"]),
-      filtroBebibas() {
+    filtroBebibas() {
       return this.productos.filter((elem) => elem.category === "bebidas");
     },
   },

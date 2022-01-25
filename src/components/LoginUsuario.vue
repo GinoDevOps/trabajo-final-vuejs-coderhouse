@@ -98,5 +98,4 @@ export default {
 * {
   font-family: "Bebas Neue", cursive;
 }
-
 </style>

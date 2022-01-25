@@ -12,7 +12,7 @@
               <v-card-text>
                 <v-form ref="form" v-model="form" class="pa-4 pt-6">
                   <v-text-field
-                   @keyup="lowerCase"
+                    @keyup="lowerCase"
                     v-model="usuarioCreado.name"
                     filled
                     color="deep-purple"
@@ -36,8 +36,24 @@
                     label="Dirección para envios"
                     type="direccion"
                   ></v-text-field>
-                  <v-container class="d-flex">
-                    <v-col cols="12" sm="6" md="6">
+                  <div v-if="$vuetify.breakpoint.xsOnly">
+                    <v-text-field
+                      @keyup="lowerCase"
+                      color="deep-purple"
+                      v-model="usuarioCreado.localidad"
+                      filled
+                      label="Localidad"
+                    ></v-text-field>
+                    <v-text-field
+                      @keyup="lowerCase"
+                      color="deep-purple"
+                      v-model="usuarioCreado.provincia"
+                      filled
+                      label="Provincia"
+                    ></v-text-field>
+                  </div>
+                  <v-container class="d-flex" v-else>
+                    <v-col cols="6">
                       <v-text-field
                         @keyup="lowerCase"
                         color="deep-purple"
@@ -57,7 +73,7 @@
                     </v-col>
                   </v-container>
 
-                  <v-text-field 
+                  <v-text-field
                     v-model="usuarioCreado.password"
                     :rules="[rules.password, rules.length(8)]"
                     filled

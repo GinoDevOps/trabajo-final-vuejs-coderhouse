@@ -1,6 +1,6 @@
 <template>
   <v-app>
-      <Navbar />
+    <Navbar />
     <v-container> </v-container>
     <Datos />
   </v-app>

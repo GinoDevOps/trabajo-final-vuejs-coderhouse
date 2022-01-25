@@ -1,17 +1,15 @@
 <template>
-  <Registro/>
+  <Registro />
 </template>
 
 <script>
 // @ is an alias to /src
-import Registro from '@/components/Registro.vue'
-
+import Registro from "@/components/Registro.vue";
 
 export default {
-  name: 'carrito',
+  name: "carrito",
   components: {
-    Registro
-   
-  }
-}
+    Registro,
+  },
+};
 </script>
