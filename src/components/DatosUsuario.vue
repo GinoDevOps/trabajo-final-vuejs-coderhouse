@@ -106,7 +106,6 @@ export default {
     loginStatus() {
       if (localStorage.logueadoAdmin === "true") {
         this.adminLogued = true;
-        console.log(localStorage);
         this.loginStatus;
       }
     },
@@ -129,7 +128,6 @@ export default {
       return localStorage.provincia;
     },
     logOut() {
-      console.log(localStorage);
       if (
         localStorage.logueado === "true" ||
         localStorage.logueadoAdmin === "true"
