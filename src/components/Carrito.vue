@@ -131,9 +131,16 @@
                     <v-card-title>
                       <span style="font-size: 24px">Tu pedido</span>
                     </v-card-title>
+
                     <v-card-text>
                       <v-container>
                         <v-row>
+                          <v-container v-if="logueado">
+                            <p>
+                              tip: si te registras, no hace falta que cargues
+                              tus datos cada vez que quieras hacer un pedido!
+                            </p>
+                          </v-container>
                           <v-col cols="12" sm="6" md="6">
                             <v-text-field
                               label="Nombre"
