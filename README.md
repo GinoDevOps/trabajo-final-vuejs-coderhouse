@@ -23,4 +23,4 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-<h2> Live Server : https://the-food-truck-j4t6a.ondigitalocean.app/ </h2> 
+### Live server: https://the-food-truck-j4t6a.ondigitalocean.app/ </h2> 
