@@ -1,5 +1,6 @@
 # theFoodTruck 🍔
 
+
 ## Project setup
 ```
 npm install
