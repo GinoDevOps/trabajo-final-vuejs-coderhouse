@@ -1,5 +1,8 @@
 # theFoodTruck 🍔
 
+
+![Login Documentation](images/index-img.png)
+
 ## Project setup
 ```
 npm install
