@@ -2,7 +2,7 @@
 
 ## Live Web
 
-<a href="https://the-food-truck.herokuapp.com/" target="_blank">Link aquí</a>
+<a href="https://the-food-truck-vue-js.vercel.app/" target="_blank">Link aquí</a>
 
 ![Index Png](images/index-img.png)
 
