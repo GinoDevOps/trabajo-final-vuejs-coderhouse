@@ -1,8 +1,8 @@
 # theFoodTruck 🍔
 
-## Live Web
+## Link a la app
 
-<a href="https://the-food-truck-vue-js.vercel.app/" target="_blank">Link aquí</a>
+[https://the-food-truck-vue-js.vercel.app](https://the-food-truck-vue-js.vercel.app)
 
 ![Index Png](images/index-img.png)
 
